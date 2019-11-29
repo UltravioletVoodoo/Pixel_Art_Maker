@@ -3,21 +3,20 @@ import getMousePos from "../hooks/getMousePosition";
 import { useEffect, useState } from "react";
 
 import "../styles/pixelGrid.css";
-import { loadGetInitialProps } from "next/dist/next-server/lib/utils";
 
 export default function PixelGrid() {
-    const numCells = 4;
+    const rowLen = 2;
 
     const dimensions = getDimensions();
     let canvasDim = Math.min(dimensions.width, dimensions.height) * 0.6; // Canvas is a square with the smallest dimension as a base
 
     const mousePos = getMousePos();
 
-    let gridPoints = convertPositionToGrid(mousePos, canvasDim, numCells);
+    let gridPoints = convertPositionToGrid(mousePos, canvasDim, rowLen);
 
-    const [gridRepresentation, setGridRep] = useState(getBlankGrid(numCells));
+    const [gridRepresentation, setGridRep] = useState(getBlankGrid(rowLen));
 
-    useEffect(() => init(gridRepresentation, setGridRep, gridPoints, numCells), []);
+    useEffect(() => init(gridRepresentation, setGridRep, gridPoints, rowLen), []);
 
     return (
         <div className="centered">
@@ -34,42 +33,40 @@ export default function PixelGrid() {
     );
 }
 
-function init(gridRepresentation, setGridRep, gridPoints, numCells) {
+function init(gridRepresentation, setGridRep, gridPoints, rowLen) {
 
     function handleCanvasClick() {
         // setGridRep(makePoint1(gridRepresentation, gridPoints));
     }
 
-    setGridRep(getBlankGrid(numCells));
+    setGridRep(getBlankGrid(rowLen));
 
     let canvas = document.getElementById("pixelGrid");
 
     canvas.addEventListener("click", handleCanvasClick);
 }
 
-function convertPositionToGrid(pos, canvasDim, numCells) {
-    let cellsPerRow = Math.sqrt(numCells);
-    let cellSize = canvasDim / cellsPerRow;
+function convertPositionToGrid(pos, canvasDim, rowLen) {
+    let cellSize = canvasDim / rowLen;
 
     return {
-        x: convertPositionToGridValues(pos.x, cellSize, cellsPerRow),
-        y: convertPositionToGridValues(pos.y, cellSize, cellsPerRow)
+        x: convertPositionToGridValues(pos.x, cellSize, rowLen),
+        y: convertPositionToGridValues(pos.y, cellSize, rowLen)
     };
 }
 
-function convertPositionToGridValues(val, cellSize, cellsPerRow) {
+function convertPositionToGridValues(val, cellSize, rowLen) {
     let result = Math.ceil(val / cellSize) - 1;
-    if (result > cellsPerRow - 1) result = cellsPerRow - 1;
+    if (result > rowLen - 1) result = rowLen - 1;
     if (result < 0) result = 0;
     return result;
 }
 
-function getBlankGrid(numCells) {
+function getBlankGrid(rowLen) {
     let result = [];
-    let cellsPerRow = Math.sqrt(numCells);
     let x = 0;
-    while (x < cellsPerRow) {
-        result.push(getRowWithAllFalse(cellsPerRow));
+    while (x < rowLen) {
+        result.push(getRowWithAllFalse(rowLen));
         x++;
     }
     return result;
