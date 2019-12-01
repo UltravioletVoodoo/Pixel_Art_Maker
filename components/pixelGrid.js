@@ -1,32 +1,50 @@
 import getCanvasDimensions from "../hooks/getCanvasDimensions";
 import getMousePos from "../hooks/getMousePosition";
 import { useEffect, useState, useRef } from "react";
+import { ReImg } from "../util/reimg";
+
 
 import "../styles/pixelGrid.css";
 
 export default function PixelGrid() {
-    const rowLen = 3;
+    const rowLen = 8;
     const canvasDim = getCanvasDimensions();
     const mousePos = getMousePos();
     const gridPoints = convertPositionToGrid(mousePos, canvasDim, rowLen);
     const [gridRepresentation, setGridRep] = useState(getBlankGrid(rowLen));
     const c = useRef(null);
+    const [grid, setGrid] = useState(true);
 
 
+    // Every render we want to clear the screen first
+    clearCanvas(c.current, canvasDim);
     // Every render we want to draw
-    drawElements(c, canvasDim, gridRepresentation, rowLen);
+    drawElements(c.current, canvasDim, gridRepresentation, rowLen, grid);
 
+
+    function toggleGrid() {
+        setGrid(!grid);
+    }
+
+    function clearGrid() {
+        setGridRep(getBlankGrid(rowLen));
+    }
 
     function handleCanvasClick() {
-        setGridRep(makePoint1(gridRepresentation, gridPoints));
+        setGridRep(togglePoint(gridRepresentation, gridPoints));
+    }
+
+    function exportToPNG() {
+        ReImg.fromCanvas(c.current).downloadPng();
     }
 
     return (
         <div className="centered">
-            <p>Mouse was last seen on canvas at point: ({mousePos.x} , {mousePos.y})</p>
-            <p>Last active gridpoint based on position: ({gridPoints.x} , {gridPoints.y})</p>
-            <p>{JSON.stringify(gridRepresentation)}</p>
+            <h1>PixelArt Maker</h1>
             <canvas className="pixelGrid" id="pixelGrid" onClick={handleCanvasClick} ref={c} width={canvasDim} height={canvasDim}></canvas>
+            <button onClick={toggleGrid}>Toggle Grid</button>
+            <button onClick={clearGrid}>Clear</button>
+            <button onClick={exportToPNG}>Export</button>
         </div>
     );
 }
@@ -61,38 +79,75 @@ function getRowWithAllFalse(n) {
     let result = [];
     let x = 0;
     while (x < n) {
-        result.push(0);
+        result.push(false);
         x++;
     }
     return result;
 }
 
-function makePoint1(grid, point) {
+function togglePoint(grid, point) {
     grid = [...grid];
-    grid[point.x][point.y] = 1;
+    grid[point.x][point.y] = !grid[point.x][point.y];
     return grid;
 }
 
-function drawElements(canvas, canvasDim, gridRepresentation, rowLen) {
-    let ctx = canvas.getContext("2d");
-    
-    let x = 0;
-    while (x < gridRepresentation.length) {
-        let y = 0;
-        while (y < gridRepresentation[x].length) {
-            if (gridRepresentation[x][y] === 1) {
-                drawElement(convertGridToPx(x, canvasDim, rowLen), convertGridToPx(y, canvasDim, rowLen), ctx, canvasDim/rowLen);
+function drawElements(canvas, canvasDim, gridRepresentation, rowLen, grid) {
+    if (canvas) {
+        let ctx = canvas.getContext("2d");
+        
+        console.log(grid);
+        // Draw the grid if desired
+        if (grid) drawGrid(ctx, canvasDim, rowLen);
+
+        // Draw the pixels
+        let x = 0;
+        while (x < gridRepresentation.length) {
+            let y = 0;
+            while (y < gridRepresentation[x].length) {
+                if (gridRepresentation[x][y]) {
+                    drawElement(convertGridToPx(x, canvasDim, rowLen), convertGridToPx(y, canvasDim, rowLen), ctx, canvasDim/rowLen);
+                }
+                y++;
             }
+            x++;
         }
     }
 }
 
 function drawElement(x, y, ctx, cellSize) {
-    ctx.beginPath();
-    ctx.rect(x, y, cellSize, cellSize);
-    ctx.stroke();
+    ctx.fillRect(x, y, cellSize, cellSize);
 }
 
 function convertGridToPx(x, canvasDim, rowLen) {
     return x * (canvasDim / rowLen);
+}
+
+function drawGrid(ctx, canvasDim, rowLen) {
+    let cellSize = canvasDim / rowLen;
+    let x = cellSize;
+    // Draw vertical lines
+    while (x < canvasDim) {
+        drawLine(ctx, x, 0, x, canvasDim);
+        x += cellSize;
+    }
+    // Draw Horizontal Lines
+    x = 0;
+    while (x < canvasDim) {
+        drawLine(ctx, 0, x, canvasDim, x);
+        x += cellSize;
+    }
+}
+
+function drawLine(ctx, xStart, yStart, xFin, yFin) {
+    ctx.beginPath();
+    ctx.moveTo(xStart, yStart);
+    ctx.lineTo(xFin, yFin);
+    ctx.stroke();
+}
+
+function clearCanvas(canvas, canvasDim) {
+    if (canvas) {
+        let ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvasDim, canvasDim);
+    }
 }
