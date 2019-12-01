@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-export function getDimensions() {
+export default function getCanvasDimensions() {
     const [dimensions, setDimensions] = useState({width: 0, height: 0});
 
     useEffect(function() {init(setDimensions)}, []);
 
-    return dimensions;
+    return Math.min(dimensions.width, dimensions.height) * 0.6;
 }
 
 function init(setDimensions) {

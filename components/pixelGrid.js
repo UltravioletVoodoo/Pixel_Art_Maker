@@ -1,49 +1,34 @@
-import { getDimensions } from "../hooks/getDimensions";
+import getCanvasDimensions from "../hooks/getCanvasDimensions";
 import getMousePos from "../hooks/getMousePosition";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import "../styles/pixelGrid.css";
 
 export default function PixelGrid() {
-    const rowLen = 2;
-
-    const dimensions = getDimensions();
-    let canvasDim = Math.min(dimensions.width, dimensions.height) * 0.6; // Canvas is a square with the smallest dimension as a base
-
+    const rowLen = 3;
+    const canvasDim = getCanvasDimensions();
     const mousePos = getMousePos();
-
-    let gridPoints = convertPositionToGrid(mousePos, canvasDim, rowLen);
-
+    const gridPoints = convertPositionToGrid(mousePos, canvasDim, rowLen);
     const [gridRepresentation, setGridRep] = useState(getBlankGrid(rowLen));
+    const c = useRef(null);
 
-    useEffect(() => init(gridRepresentation, setGridRep, gridPoints, rowLen), []);
+
+    // Every render we want to draw
+    drawElements(c, canvasDim, gridRepresentation, rowLen);
+
+
+    function handleCanvasClick() {
+        setGridRep(makePoint1(gridRepresentation, gridPoints));
+    }
 
     return (
         <div className="centered">
-            <p>Window's dimensions are {dimensions.width} by {dimensions.height}</p>
             <p>Mouse was last seen on canvas at point: ({mousePos.x} , {mousePos.y})</p>
             <p>Last active gridpoint based on position: ({gridPoints.x} , {gridPoints.y})</p>
-            <div>
-                <p>Grid Representation</p>
-                <p>{gridRepresentation[0][0]} {gridRepresentation[0][1]}</p>
-                <p>{gridRepresentation[1][0]} {gridRepresentation[1][1]}</p>
-            </div>
-            <canvas className="pixelGrid" id="pixelGrid" width={canvasDim} height={canvasDim}></canvas>
+            <p>{JSON.stringify(gridRepresentation)}</p>
+            <canvas className="pixelGrid" id="pixelGrid" onClick={handleCanvasClick} ref={c} width={canvasDim} height={canvasDim}></canvas>
         </div>
     );
-}
-
-function init(gridRepresentation, setGridRep, gridPoints, rowLen) {
-
-    function handleCanvasClick() {
-        // setGridRep(makePoint1(gridRepresentation, gridPoints));
-    }
-
-    setGridRep(getBlankGrid(rowLen));
-
-    let canvas = document.getElementById("pixelGrid");
-
-    canvas.addEventListener("click", handleCanvasClick);
 }
 
 function convertPositionToGrid(pos, canvasDim, rowLen) {
@@ -83,8 +68,31 @@ function getRowWithAllFalse(n) {
 }
 
 function makePoint1(grid, point) {
-    console.log(point);
-
+    grid = [...grid];
     grid[point.x][point.y] = 1;
     return grid;
+}
+
+function drawElements(canvas, canvasDim, gridRepresentation, rowLen) {
+    let ctx = canvas.getContext("2d");
+    
+    let x = 0;
+    while (x < gridRepresentation.length) {
+        let y = 0;
+        while (y < gridRepresentation[x].length) {
+            if (gridRepresentation[x][y] === 1) {
+                drawElement(convertGridToPx(x, canvasDim, rowLen), convertGridToPx(y, canvasDim, rowLen), ctx, canvasDim/rowLen);
+            }
+        }
+    }
+}
+
+function drawElement(x, y, ctx, cellSize) {
+    ctx.beginPath();
+    ctx.rect(x, y, cellSize, cellSize);
+    ctx.stroke();
+}
+
+function convertGridToPx(x, canvasDim, rowLen) {
+    return x * (canvasDim / rowLen);
 }
