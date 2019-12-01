@@ -7,7 +7,7 @@ import { ReImg } from "../util/reimg";
 import "../styles/pixelGrid.css";
 
 export default function PixelGrid() {
-    const rowLen = 8;
+    const rowLen = 16;
     const canvasDim = getCanvasDimensions();
     const mousePos = getMousePos();
     const gridPoints = convertPositionToGrid(mousePos, canvasDim, rowLen);
