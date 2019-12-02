@@ -5,13 +5,13 @@ export default function getCanvasDimensions() {
 
     useEffect(function() {init(setDimensions)}, []);
 
-    return Math.min(dimensions.width, dimensions.height) * 0.6;
+    return Math.min(dimensions.width, dimensions.height);
 }
 
 function init(setDimensions) {
 
     function handleResize() {
-        setDimensions({width: window.innerWidth, height: window.innerHeight});
+        setDimensions({width: window.innerWidth * (10/24), height: window.innerHeight});
     }
 
     handleResize();

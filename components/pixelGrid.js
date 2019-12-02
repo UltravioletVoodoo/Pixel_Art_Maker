@@ -1,10 +1,11 @@
+import "../styles/baseStyle.css";
+import "../styles/pixelGrid.css";
+
 import getCanvasDimensions from "../hooks/getCanvasDimensions";
 import getMousePos from "../hooks/getMousePosition";
 import { useEffect, useState, useRef } from "react";
 import { ReImg } from "../util/reimg";
-
-
-import "../styles/pixelGrid.css";
+import ToolBar from "./toolBar";
 
 export default function PixelGrid() {
     const rowLen = 16;
@@ -39,12 +40,15 @@ export default function PixelGrid() {
     }
 
     return (
-        <div className="centered">
-            <h1>PixelArt Maker</h1>
-            <canvas className="pixelGrid" id="pixelGrid" onClick={handleCanvasClick} ref={c} width={canvasDim} height={canvasDim}></canvas>
-            <button onClick={toggleGrid}>Toggle Grid</button>
-            <button onClick={clearGrid}>Clear</button>
-            <button onClick={exportToPNG}>Export</button>
+        <div className="columns">
+            <ToolBar></ToolBar>
+            <div className="col-6">
+                <canvas className="pixelGrid" id="pixelGrid" onClick={handleCanvasClick} ref={c} width={canvasDim} height={canvasDim}></canvas>
+                <button onClick={toggleGrid}>Toggle Grid</button>
+                <button onClick={clearGrid}>Clear</button>
+                <button onClick={exportToPNG}>Export</button>
+            </div>
+            <ToolBar></ToolBar>
         </div>
     );
 }
