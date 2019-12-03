@@ -5,7 +5,8 @@ import getCanvasDimensions from "../hooks/getCanvasDimensions";
 import getMousePos from "../hooks/getMousePosition";
 import { useEffect, useState, useRef } from "react";
 import { ReImg } from "../util/reimg";
-import ToolBar from "./toolBar";
+import ToolBar1 from "./toolBar1";
+import ToolBar2 from "./toolBar2";
 
 export default function PixelGrid() {
     const rowLen = 16;
@@ -41,14 +42,14 @@ export default function PixelGrid() {
 
     return (
         <div className="columns">
-            <ToolBar></ToolBar>
+            <ToolBar1></ToolBar1>
             <div className="col-6">
                 <canvas className="pixelGrid" id="pixelGrid" onClick={handleCanvasClick} ref={c} width={canvasDim} height={canvasDim}></canvas>
                 <button onClick={toggleGrid}>Toggle Grid</button>
                 <button onClick={clearGrid}>Clear</button>
                 <button onClick={exportToPNG}>Export</button>
             </div>
-            <ToolBar></ToolBar>
+            <ToolBar2></ToolBar2>
         </div>
     );
 }
