@@ -3,18 +3,18 @@ import "../styles/pixelGrid.css";
 
 import getCanvasDimensions from "../hooks/getCanvasDimensions";
 import getMousePos from "../hooks/getMousePosition";
-import { useEffect, useState, useRef } from "react";
+import {useState, useRef } from "react";
 import { ReImg } from "../util/reimg";
-import ToolBar1 from "./toolBar1";
-import ToolBar2 from "./toolBar2";
 
 export default function PixelGrid() {
-    const rowLen = 16;
+    const c = useRef(null);
+    const numBox = useRef(null);
     const canvasDim = getCanvasDimensions();
     const mousePos = getMousePos();
+    let rowLen = 16;
+    if (numBox.current) rowLen = numBox.current.value;
     const gridPoints = convertPositionToGrid(mousePos, canvasDim, rowLen);
     const [gridRepresentation, setGridRep] = useState(getBlankGrid(rowLen));
-    const c = useRef(null);
     const [grid, setGrid] = useState(true);
 
 
@@ -42,14 +42,20 @@ export default function PixelGrid() {
 
     return (
         <div className="columns">
-            <ToolBar1></ToolBar1>
-            <div className="col-6">
-                <canvas className="pixelGrid" id="pixelGrid" onClick={handleCanvasClick} ref={c} width={canvasDim} height={canvasDim}></canvas>
+            <div className="col-3 toolBar">
+                <p>ToolBar 1</p>
+                <input className="rowLenInput" type="number" defaultValue="4" ref={numBox}></input>
                 <button onClick={toggleGrid}>Toggle Grid</button>
-                <button onClick={clearGrid}>Clear</button>
                 <button onClick={exportToPNG}>Export</button>
             </div>
-            <ToolBar2></ToolBar2>
+            <div className="col-6">
+                <canvas className="pixelGrid" id="pixelGrid" onClick={handleCanvasClick} ref={c} width={canvasDim} height={canvasDim}></canvas>
+            </div>
+            <div className="col-3 toolBar">
+                <p>ToolBar 2</p>
+                <p>Palette placeholder</p>
+                <button onClick={clearGrid}>Clear</button>
+            </div>
         </div>
     );
 }
@@ -100,7 +106,6 @@ function drawElements(canvas, canvasDim, gridRepresentation, rowLen, grid) {
     if (canvas) {
         let ctx = canvas.getContext("2d");
         
-        console.log(grid);
         // Draw the grid if desired
         if (grid) drawGrid(ctx, canvasDim, rowLen);
 
