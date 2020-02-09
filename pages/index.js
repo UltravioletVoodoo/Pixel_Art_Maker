@@ -7,7 +7,7 @@ export default function Index() {
             <Base></Base>
             <div className="col-10 col-mx-auto centered">
                 <h1>PixelArt Maker</h1>
-                <PixelGrid></PixelGrid>
+                <PixelGrid rowLen={4}></PixelGrid>
             </div>
         </div>
     );

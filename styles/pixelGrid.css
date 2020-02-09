@@ -1,9 +1,3 @@
-.pixelGrid {
-    border: 1px solid black;
-}
-.toolBar {
-    background-color: grey;
-}
-.rowLenInput {
-    width: 80%;
+.PixelGrid {
+    font-size: 0px;
 }
