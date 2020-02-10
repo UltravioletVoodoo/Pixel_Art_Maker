@@ -4,10 +4,11 @@ import { useState } from "react"
 export default function Pixel(props) {
     let [active, setActive] = useState(false)
     let [size, setSize] = useState(50)
+    let [color, setColor] = useState('lightgrey')
 
     function injectStyles() {
         return {
-            backgroundColor: active ? 'blue':'grey',
+            backgroundColor: color,
             width: size,
             height: size
         }
@@ -15,6 +16,7 @@ export default function Pixel(props) {
 
     function handleClick() {
         setActive(!active)
+        setColor(props.color)
     }
 
     return (
