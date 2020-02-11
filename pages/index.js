@@ -4,7 +4,7 @@ import PixelGrid from "../components/pixelGrid"
 import "../styles/index.css"
 import Palette from "../components/palette"
 import { useState } from "react"
-import ToolBar from "../components/toolbar"
+import CurrentColorWidget from "../components/currentColorWidget"
 
 export default function Index() {
     let [editColor, setEditColor] = useState('#000000')
@@ -17,7 +17,7 @@ export default function Index() {
                 <h1>PixelArt Maker</h1>
                 <PixelGrid rowLen={4} color={editColor}></PixelGrid>
                 <Palette setColor={setEditColor}></Palette>
-                <ToolBar color={editColor}></ToolBar>
+                <CurrentColorWidget color={editColor}></CurrentColorWidget>
             </div>
         </div>
     );

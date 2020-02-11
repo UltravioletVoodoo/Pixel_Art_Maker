@@ -1,5 +1,5 @@
 import "../styles/pixel.css"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function Pixel(props) {
     let [active, setActive] = useState(false)

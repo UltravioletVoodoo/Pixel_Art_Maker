@@ -1,0 +1,23 @@
+.currentColorWidget {
+    border-radius: 15px;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    box-shadow: 0 0 15px darkgrey;
+    width: 100px;
+    height: 100px;
+}
+
+.currentColorWidget > .widgetLabel {
+    color: grey;
+}
+
+.currentColorWidget > .widgetContent {
+    border: 1px solid grey;
+    border-radius: 30%;
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    left: 25%;
+    top: 25%;
+}

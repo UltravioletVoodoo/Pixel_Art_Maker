@@ -1,3 +1,10 @@
+.paletteWidget {
+    box-shadow: 0 0 15px darkgrey;
+    border-radius: 15px;
+    width: 200px;
+    margin: auto;
+}
+
 .palette {
     position: relative;
     padding: 5px;

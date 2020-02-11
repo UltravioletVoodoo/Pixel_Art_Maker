@@ -1,7 +1,6 @@
 import PaletteColor from "./paletteColor"
 
 import "../styles/palette.css"
-import { loadGetInitialProps } from "next/dist/next-server/lib/utils"
 
 export default function Palette(props) {
 
@@ -17,8 +16,11 @@ export default function Palette(props) {
     const palette = colors.map((c) => <PaletteColor color={c} setColor={props.setColor} />)
 
     return (
-        <div className='palette'>
-            {palette}
+        <div className='paletteWidget'>
+            <div className='palette'>
+                {palette}
+            </div>
+            Advanced
         </div>
     )
 }
