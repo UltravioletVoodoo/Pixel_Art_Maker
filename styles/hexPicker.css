@@ -1,0 +1,24 @@
+.hexPicker {
+    text-align: left;
+    border-top: 1px solid lightgrey;
+    padding-top: 5px;
+    margin: 5px 5px 0 5px;
+}
+
+.hexPicker > input {
+    margin: 10px;
+    margin: 10px 10px 10px 5px;
+    width: 125px;
+}
+
+.hexPicker > .submit {
+    font-size: 12px;
+    border: 1px solid darkgrey;
+    border-radius: 5px;
+    padding: 2px;
+    margin-right: 5px;
+}
+
+.hexPicker > .help {
+    text-align: center;
+}
