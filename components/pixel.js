@@ -2,9 +2,10 @@ import "../styles/pixel.css"
 import { useState, useEffect } from "react"
 
 export default function Pixel(props) {
-    let [active, setActive] = useState(false)
     let [size, setSize] = useState(50)
     let [color, setColor] = useState('lightgrey')
+
+    let mouseDown = false;
 
     function injectStyles() {
         return {
@@ -15,11 +16,33 @@ export default function Pixel(props) {
     }
 
     function handleClick() {
-        setActive(!active)
         setColor(props.color)
     }
 
+    function handleMouseDown() {
+        mouseDown = true
+    }
+
+    function handleMouseUp() {
+        mouseDown = false
+    }
+
+    function handleMouseOver() {
+        if (!mouseDown) return
+        handleClick()
+    }
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleMouseDown)
+        document.addEventListener('mouseup', handleMouseUp)
+
+        return () => {
+            document.removeEventListener('mousedown', handleMouseDown)
+            document.removeEventListener('mouseup', handleMouseUp)
+        }
+    })
+
     return (
-        <span className='Pixel' onClick={handleClick} style={injectStyles()} />
+        <span className='Pixel' onMouseDown={handleClick} onMouseOver={handleMouseOver} style={injectStyles()} />
     )
 }
