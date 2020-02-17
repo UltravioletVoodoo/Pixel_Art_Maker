@@ -7,7 +7,7 @@
 
 .hexPicker > input {
     margin: 10px;
-    margin: 10px 10px 10px 5px;
+    margin: 10px 10px 5px 5px;
     width: 125px;
 }
 
@@ -17,6 +17,7 @@
     border-radius: 5px;
     padding: 2px;
     margin-right: 5px;
+    cursor: pointer;
 }
 
 .hexPicker > .help {

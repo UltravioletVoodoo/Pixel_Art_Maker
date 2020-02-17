@@ -1,0 +1,11 @@
+.helpIcon {
+    height: 20px;
+    width: 15px;
+    font-size: 12px;
+    margin-bottom: 5px;
+    border: 1px solid darkgrey;
+    color: darkgrey;
+    border-radius: 100%;
+    cursor: pointer;
+    display: inline-block;
+}

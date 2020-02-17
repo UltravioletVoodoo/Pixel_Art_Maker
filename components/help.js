@@ -1,16 +1,24 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
+
+import "../styles/help.css"
+import PointingModal from "./pointingModal"
 
 export default function Help(props) {
     const [opened, setOpened] = useState(false)
     const helpClick = () => setOpened(!opened)
+    const iconRef = useRef(false)
     
     return (
         <>
-            <span style={props.injectedStyle} onClick={helpClick}>?</span>
+            <span ref={iconRef} className='helpIcon' onClick={helpClick}>?</span>
             {opened && (
-                <div>
-                    {props.helpText}
-                </div>
+                <PointingModal 
+                    modalText={props.helpText}
+                    reference={iconRef}
+                    closeFunc={setOpened} 
+                    title='Hex Codes'
+                    quarters={1} 
+                />
             )}
         </>
     )

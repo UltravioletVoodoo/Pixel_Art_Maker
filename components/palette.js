@@ -21,7 +21,7 @@ export default function Palette(props) {
             <div className='palette'>
                 {palette}
             </div>
-            <span onClick={advancedClick}>Advanced</span>
+            <span className='advancedBtn' onClick={advancedClick}>Advanced</span>
             {opened && (
                 <HexPicker setColor={props.setColor} />
             )}

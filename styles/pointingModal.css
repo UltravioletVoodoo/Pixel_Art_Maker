@@ -1,0 +1,46 @@
+.pointingModal {
+    position: fixed;
+    background-color: white;
+    box-shadow: 0 0 15px darkgrey;
+    border-radius: 15px;
+    z-index: 1000;
+    width: 250px;
+}
+
+.modalDanger {
+    border: 1px solid red;   
+}
+
+.pointingModal .modalHeader {
+    border-bottom: 1px solid darkgrey;
+    margin: 0 10px 10px 10px;
+    display: flex;
+    color: darkgrey;
+}
+
+.pointingModal .closeBtn {
+    right: 10px;
+    position: absolute;
+    font-size: 23px;
+    color: darkgrey;
+    cursor: pointer;
+}
+
+.pointingModal .modalText {
+    padding: 0 10px 0 10px;
+}
+
+.textDanger {
+    color: red;
+}
+
+.modalArrow {
+    content: " ";
+    position: absolute;
+    border-top: 15px solid white;
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-bottom: none;
+    width: 15px;
+    z-index: 1000;
+}
