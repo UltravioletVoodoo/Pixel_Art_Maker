@@ -37,10 +37,9 @@
 .modalArrow {
     content: " ";
     position: absolute;
-    border-top: 15px solid white;
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
+    border-top: 17px solid white;
+    border-right: 17px solid transparent;
+    border-left: 17px solid transparent;
     border-bottom: none;
-    width: 15px;
     z-index: 1000;
 }

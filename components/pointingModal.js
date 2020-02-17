@@ -31,8 +31,8 @@ export default function PointingModal(props) {
         if (modalLeft > window.innerWidth - modalPadding - modalPos.width) modalLeft = window.innerWidth - modalPadding - modalPos.width
 
         // Get the top/left for the arrow
-        const arrowLeft = refPos.x + (refPos.width / 2) - 15
-        const arrowTop = modalTop + modalPos.height
+        const arrowLeft = refPos.x + (refPos.width / 2) - 17
+        const arrowTop = modalTop + modalPos.height - 2
 
         return {
             arrow: {
