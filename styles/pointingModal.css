@@ -34,7 +34,7 @@
     color: red;
 }
 
-.modalArrow {
+/* .modalArrow {
     content: " ";
     position: absolute;
     border-top: 17px solid white;
@@ -42,4 +42,18 @@
     border-left: 17px solid transparent;
     border-bottom: none;
     z-index: 1000;
+} */
+
+.modalArrow {
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    background-color: white;
+    transform: rotate(45deg);
+    z-index: 1000;
+}
+
+.modalArrowDanger {
+    border-bottom: 1px solid red;
+    border-right: 1px solid red;
 }

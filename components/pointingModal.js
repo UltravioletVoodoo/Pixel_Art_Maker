@@ -26,13 +26,13 @@ export default function PointingModal(props) {
         
         // Get the top/left for the modal
         let modalLeft = refPos.x + (refPos.width / 2) - (modalPos.width * (props.quarters/4))
-        const modalTop = refPos.y - modalPos.height - 15
+        const modalTop = refPos.y - modalPos.height - 18
         if (modalLeft < modalPadding) modalLeft = modalPadding
         if (modalLeft > window.innerWidth - modalPadding - modalPos.width) modalLeft = window.innerWidth - modalPadding - modalPos.width
 
         // Get the top/left for the arrow
-        const arrowLeft = refPos.x + (refPos.width / 2) - 17
-        const arrowTop = modalTop + modalPos.height - 2
+        const arrowLeft = refPos.x + (refPos.width / 2) - 13
+        const arrowTop = modalTop + modalPos.height - 13
 
         return {
             arrow: {
@@ -50,6 +50,7 @@ export default function PointingModal(props) {
     const closeModal = () => props.closeFunc(false)
     const modalClasses = props.danger ? 'pointingModal modalDanger' : 'pointingModal'
     const textClasses = props.danger ? 'modalText textDanger' : 'modalText'
+    const arrowClasses = props.danger ? 'modalArrow modalArrowDanger' : 'modalArrow'
 
     useLayoutEffect(() => {
         const resizeListener = () => setPosition(getPosition())
@@ -70,7 +71,7 @@ export default function PointingModal(props) {
                 </div>
                 <p className={textClasses}>{props.modalText}</p>
             </div>
-            <div className='modalArrow' style={position.arrow} />
+            <div className={arrowClasses} style={position.arrow} />
         </>
     )
 }
